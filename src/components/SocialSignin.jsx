@@ -24,6 +24,7 @@ const SocialSignin = () => {
 
       // The signed-in user info.
       const user = result.user;
+      setErrorMessage("");
       navigate("/");
       console.log(user, token);
     } catch (error) {
@@ -54,7 +55,9 @@ const SocialSignin = () => {
 
       // The signed-in user info.
       const user = result.user;
+      setErrorMessage("");
       navigate("/");
+
       console.log(user, token);
     } catch (error) {
       console.log(error);
