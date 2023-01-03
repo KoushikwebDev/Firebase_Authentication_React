@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   signInWithPopup,
   GoogleAuthProvider,
@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 
 const SocialSignin = () => {
   const navigate = useNavigate();
+
+  const [errorMessage, setErrorMessage] = useState("");
 
   // Google SignIn By PopUp Method 😎😎
   const googleSignIn = async (e) => {
@@ -34,6 +36,7 @@ const SocialSignin = () => {
       const credential = GoogleAuthProvider.credentialFromError(error);
 
       console.log(errorCode, errorMessage, email, credential);
+      setErrorMessage(error.message);
     }
   };
 
@@ -64,26 +67,27 @@ const SocialSignin = () => {
       const credential = FacebookAuthProvider.credentialFromError(error);
 
       console.log(errorCode, errorMessage, email, credential);
+      setErrorMessage(error.message);
     }
   };
   return (
     <div className="container my-3">
       <b>SignIn Options :</b>
       <br />
-
       <button
         onClick={(e) => googleSignIn(e)}
         className="btn btn-outline-danger my-1 mx-2 "
       >
         Google
       </button>
-
       <button
         onClick={(e) => facebookSignIn(e)}
         className="btn btn-outline-primary my-1"
       >
         Facebook
       </button>
+      <br />
+      <b className=" text-danger">{errorMessage}</b> <br />
     </div>
   );
 };
