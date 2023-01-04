@@ -15,6 +15,7 @@ const Home = () => {
 
       if (!user) {
         navigate("/login");
+        return;
       }
       // console.log(user.emailVerified);
       if (user.emailVerified) {
