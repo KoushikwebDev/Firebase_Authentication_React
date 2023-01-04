@@ -13,6 +13,9 @@ const Home = () => {
     auth.onAuthStateChanged((user) => {
       setuser(user);
 
+      if (!user) {
+        navigate("/login");
+      }
       // console.log(user.emailVerified);
       if (user.emailVerified) {
         setIsEmailSend(true);
@@ -20,9 +23,6 @@ const Home = () => {
         btnRef.current.style.color = "#b3a998";
       }
       // console.log(user);
-      if (!user) {
-        navigate("/login");
-      }
     });
   };
   useEffect(() => {
@@ -64,7 +64,7 @@ const Home = () => {
       <h3 className="text-center"> Firebase Auth </h3>
       <h4 className="text-center">Home</h4>
       <h6 className="d-flex justify-content-end">
-        Welcome,{user.displayName}{" "}
+        Welcome,{user?.displayName}
       </h6>
       <div className="d-flex justify-content-end align-items-center">
         <button onClick={(e) => signout(e)} className="btn btn-danger mx-1">
