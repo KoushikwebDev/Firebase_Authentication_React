@@ -1,16 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../Firebase/firebase.config";
-import { signOut } from "firebase/auth";
+import { signOut, sendEmailVerification } from "firebase/auth";
 
 const Home = () => {
   const navigate = useNavigate();
   const [user, setuser] = useState("");
+  const [isEmailSend, setIsEmailSend] = useState(false);
+  const btnRef = useRef(null);
 
-  const fetchData = () => {
+  const fetchData = async () => {
     auth.onAuthStateChanged((user) => {
       setuser(user);
-      console.log(user);
+
+      // console.log(user.emailVerified);
+      if (user.emailVerified) {
+        setIsEmailSend(true);
+        btnRef.current.style.backgroundColor = "#828079";
+        btnRef.current.style.color = "#b3a998";
+      }
+      // console.log(user);
       if (!user) {
         navigate("/login");
       }
@@ -18,8 +27,26 @@ const Home = () => {
   };
   useEffect(() => {
     fetchData();
+
     // eslint-disable-next-line
   }, []);
+
+  const verifyEmail = async (e) => {
+    e.preventDefault();
+    try {
+      let user = auth.currentUser;
+      let res = await sendEmailVerification(user);
+      console.log(user, res);
+      setIsEmailSend(true);
+      btnRef.current.style.backgroundColor = "#828079";
+      btnRef.current.style.color = "#b3a998";
+      alert(
+        "Verifiaction mail send, if Not in primary mail box, check in spam"
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   const signout = async (e) => {
     e.preventDefault();
@@ -62,7 +89,14 @@ const Home = () => {
         {/* <h6>Registered on : {user.metadata.creationTime}</h6> */}
       </div>
       <div className="d-flex justify-content-end align-items-center">
-        <button className="btn btn-outline-danger">Delete Account</button>
+        <button
+          onClick={(e) => verifyEmail(e)}
+          className="btn btn-primary"
+          disabled={isEmailSend}
+          ref={btnRef}
+        >
+          Verify Email
+        </button>
       </div>
     </div>
   );

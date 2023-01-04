@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import {
   signInWithPopup,
+  // signInWithRedirect,
+  // getRedirectResult,
   GoogleAuthProvider,
   FacebookAuthProvider,
 } from "firebase/auth";
@@ -16,17 +18,17 @@ const SocialSignin = () => {
   const googleSignIn = async (e) => {
     e.preventDefault();
     try {
-      let result = await signInWithPopup(auth, provider);
+      await signInWithPopup(auth, provider);
 
-      const credential = GoogleAuthProvider.credentialFromResult(result);
+      // const credential = GoogleAuthProvider.credentialFromResult(result);
 
-      const token = credential.accessToken;
+      // const token = credential.accessToken;
 
       // The signed-in user info.
-      const user = result.user;
+      // const user = result.user;
       setErrorMessage("");
       navigate("/");
-      console.log(user, token);
+      // console.log(user, token);
     } catch (error) {
       // Handle Errors here.
       const errorCode = error.code;
@@ -41,7 +43,30 @@ const SocialSignin = () => {
     }
   };
 
-  // Google SignIn By Redirect Method 😎😎
+  // Google SignIn By Redirect Method 😎😎😎😎
+  // const googleSignInRedirect = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     await signInWithRedirect(auth, provider);
+  //     // let result = await getRedirectResult(auth);
+  //     // console.log(result.user);
+  //     navigate("/");
+
+  //     setErrorMessage("");
+  //     // console.log(user, token);
+  //   } catch (error) {
+  //     // Handle Errors here.
+  //     const errorCode = error.code;
+  //     const errorMessage = error.message;
+  //     // The email of the user's account used.
+  //     const email = error.customData.email;
+  //     // The AuthCredential type that was used.
+  //     const credential = GoogleAuthProvider.credentialFromError(error);
+
+  //     console.log(errorCode, errorMessage, email, credential);
+  //     setErrorMessage(error.message);
+  //   }
+  // };
 
   // Facebook SignIn PopUp 😎😎
   const facebookSignIn = async (e) => {

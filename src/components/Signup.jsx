@@ -28,9 +28,12 @@ const Signup = () => {
         userDetails.email,
         userDetails.password
       );
-      await updateProfile(user, {
-        displayName: userDetails.name,
-      });
+      if (user !== null) {
+        await updateProfile(user, {
+          displayName: userDetails.name,
+        });
+      }
+
       console.log(user);
       navigate("/");
     } catch (error) {
